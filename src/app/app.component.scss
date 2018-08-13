@@ -1,0 +1,17 @@
+table {
+  width: 100%;
+}
+
+.base-container {
+  width: 80%;
+  margin: 20px auto;
+}
+
+.input-field-container {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.input-field {
+  width: 100%;
+}

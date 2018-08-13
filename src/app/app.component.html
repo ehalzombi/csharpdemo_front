@@ -1,0 +1,79 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <h3>C# demo</h3>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="base-container">
+  <mat-card>
+    <mat-card-title>
+      <h3>Описание задачи</h3>
+    </mat-card-title>
+    <mat-card-content>
+      <p>
+        Программа отображает список вакансий с yaroslavl.hh.ru. В базу сохраняются записи, у которых начальное
+      и конечное предложение отличаются не более чем на 30% от средней по подкатегории. Из-за экономии времени на загрузку 
+      для вакансии сохраняется только название, URL и начальное и конечное предложение. Реализован поиск по названию вакансии.
+      Серверная часть написана на asp.net core 2.1, клиентская -- на ангуляре.
+      </p>  
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="base-container">
+  <mat-card>
+    <mat-card-title>
+      <h3>Фильтр</h3>
+    </mat-card-title>
+    <mat-card-content>
+      <mat-form-field class="input-field">
+        <input matInput type="text" placeholder="Название" [(ngModel)]="searchStr" />
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="ApplyFilter()">Применить</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div class="base-container">
+  <mat-accordion multi="true" #categoryListPanel="matAccordion">
+    <mat-expansion-panel *ngFor="let category of categoryList">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{category.Title}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{category.Url}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-accordion [multi]="true">
+        <mat-expansion-panel *ngFor="let subcategory of category.Subcategories" [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{subcategory.Title}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{subcategory.Url}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-list>
+            <mat-list-item *ngFor="let vacancy of subcategory.Vacancies">
+              <h2 matLine class="mat-title">{{vacancy.Title}}</h2>
+              <p matLine class="mat-caption">{{vacancy.Url}}</p>
+              <em matLine>{{vacancy.InitOffer}} - {{vacancy.FinalOffer}}</em>
+            </mat-list-item>
+          </mat-list>
+
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</div>
+<div class="base-container">
+  <button #reset mat-raised-button color="primary" (click)="UpdateCategoryList(reset)">Обновить</button>
+
+</div>
